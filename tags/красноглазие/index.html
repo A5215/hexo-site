@@ -119,7 +119,7 @@
       <div class="article-entry">
         
           <p>Описание способов подружить железо и софт. Железо - ноутбук Lenovo V560. Софт - Linux Mint, версия на момент написания - Rebecca 17.1.</p>
-<h1 id="Дискретное_видео">Дискретное видео</h1>
+<h4 id="Дискретное_видео">Дискретное видео</h4>
 <p>Самое проблемное место этого ноутбука. На данный момент штатных способов подружить Wine и проприетарные драйверы nvidia нет. Если планируется эксперимент с вайном - используй отдельную экспериментальную систему и будь готов к абсурдным по величине затратам времени.</p>
 <p>Для установки проприетарного драйвера я делаю вот что:</p>
 <p>From Package Manager:</p>
@@ -133,7 +133,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> ln <span class="operator">-s</span>  /usr/lib/nvidia-<span class="number">331</span>/vdpau/libvdpau_nvidia.so.<span class="number">1</span> /usr/lib/libvdpau_nvidia.so</div><div class="line"><span class="built_in">sudo</span> chmod u+s /usr/lib/libvdpau_nvidia.so</div></pre></td></tr></table></figure>
 
 <p>(после обновления дров выполнить sudo rm /usr/lib/libvdpau_nvidia.so и повторить команды выше)</p>
-<h1 id="Wine">Wine</h1>
+<h4 id="Wine">Wine</h4>
 <p>Wine и драйвер nvidia никак не могут поделить одну библиотеку, что приводит к взаимному выпиливанию при установке каждого из них. Костыль - установка левой библиотеки, причём после при повторных установках драйверов или вайна не исключается повторение проблем. Рекомендую поставить всё это дело один раз и не трогать вплоть до появления стабильного решения. Хотя можно не трогать его и дальше, так спокойнее.</p>
 <p>Решение:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> apt-get install nvidia-cuda toolkit</div><div class="line"><span class="built_in">sudo</span> apt-get install ocl-icd-opencl-dev (this will remove nvidia-libopencl1-* and nvidia-opencl-dev)</div><div class="line"><span class="built_in">sudo</span> apt-get install wine1.<span class="number">6</span></div></pre></td></tr></table></figure>
@@ -149,9 +149,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WINEPREFIX=<span class="string">'/home/username/prefix32'</span> WINEARCH=<span class="string">'win32'</span> wine <span class="string">'wineboot'</span></div></pre></td></tr></table></figure>
 
 <p>Или поставить PlayOnLinux. </p>
-<h1 id="SSD">SSD</h1>
+<h4 id="SSD">SSD</h4>
 <p>Опции для монтирования твёрдотельных накопителей:<br>relatime - задаёт запрет на изменение времени доступа к файлу (не ранее времени модификации)<br>discard - обеспечивает работу команды TRIM. Внимание! Некоторые SSD до 2010 года выпуска не совместимы с этой опцией. Перед включением проверить на совместимость!<br>SWAP раздел не стоит хранить на SSD по причине его своеобразной реализации и применения. Лучше его помещать на HDD.<br>Дефрагментация: не нужна. Серьёзно. Если кто посоветует - назначить ему дефрагментацию мозга столовыми приборами.</p>
-<h1 id="GRUB2">GRUB2</h1>
+<h4 id="GRUB2">GRUB2</h4>
 <p>Конечно я никак не могу обойтись без модификации загрузчика. Ведь зачем ждать 10 секунд, когда достаточно и [напиши сюда цифру]?</p>
 <p>Для сохранения выбора последней загруженной системы</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> gedit /etc/default/grub</div></pre></td></tr></table></figure>
@@ -160,13 +160,13 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> update-grub</div></pre></td></tr></table></figure>
 
 <p>Там же можно изменить и ожидание выбора.</p>
-<h1 id="Датчик_отпечатков_пальцев">Датчик отпечатков пальцев</h1>
+<h4 id="Датчик_отпечатков_пальцев">Датчик отпечатков пальцев</h4>
 <p>Да, здесь есть и такое. Реализация кривая что на линуксе, что на винде. Однако, для винды существует стабильный проприетарный софт, а для линукса - как всегда, нечто красноглазое. Так как инструкции я писал урывками, то здесь всё будет выложено так, как у меня на диске.<br>Основные моменты разработки можно найти здесь:<br><a href="https://www.libreoffice.org/bugzilla/show_bug.cgi?id=73762" target="_blank" rel="external">https://www.libreoffice.org/bugzilla/show_bug.cgi?id=73762</a>.</p>
 <p>Зависимости (видимо, при компиляции пофиксенного драйвера)<br>libtoolize - libtool<br>aclocal - automake<br>libusb-1.0 - libusb-1.0-0-dev<br>nss - libcurl4-nss-dev<br>glib-2.0 - libglib2.0-dev<br>pixman - libpixman-1-dev<br>XV - imagemagick? libxv-dev!<br>—enable-maintainer-mode - удалить<br>g++ - g++</p>
 <p>libfprint-0.3.0-r1.tar.bz2 содержит экспериментальный драйвер, работающий на Lenovo v560 и Gentoo.</p>
 <p>if you want to use fprint_demo with fingerprint gui<br>sudo chmod a+rw /dev/bus/usb/002/003<br>Сие может варьироваться. Нужно уточнять!</p>
 <p>На данный момент у меня есть Libfprint_Patched_Egistec_0.5.1-1_amd64.deb - пакетик, который я уже точно проверил на Ubuntu Mate.<br>У подопытного наблюдались следующие симптомы: в некоторых случаях окно ввода пароля/пальца отсутствует, что может сбить с толку, так как ввод всё равно читается. Качество считывания такое, что полученный отпечаток необходимо тщательно проверять: если его нельзя повторить с тем же пальцем в разных положениях и скоростях, то он бесполезен, а если этот же отпечаток положительно реагирует на другие пальцы, то он бесполезен вдвойне.</p>
-<h1 id="Сеть">Сеть</h1>
+<h4 id="Сеть">Сеть</h4>
 <p>Здесь тоже проблемы. Для начала - неприятный баг в драйвере atl1c, внезапно выдающем из ниоткуда плотный поток данных в статистике. Это не только ломает график, но и переполняет счётчик пакетов, что не позволяет выполнить ни одно новое подключение. Решение пока одно: отключать драйвер в случае проблем. Если же он нужен, то его можно загрузить так же быстро, как и выгрузить.<br>Инструкции:</p>
 <p>Problem with eth0 statistics: increasing counters with no data.<br>Solve: DO NOT USE atl1c.</p>
 <p>zero counters:</p>
@@ -180,7 +180,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">sudo</span> modprobe atl1c</div></pre></td></tr></table></figure>
 
 <p>Ещё проблема: драйвер беспроводной связи для BCM4313 странно себя ведёт с ривером и прочими подобными штуками. Точки - видит. Пользователей - тоже. Но вмешиваться в трафик - ни-ни! Ломануть по WPS он не может, как ни пытайся. Ну разве что ты будешь ломать с заранее известным паролем… Это как взлом двери ключом от неё. Решение мне искать уже лень, так как драйверы - штука нестабильная и скучная. Мне и Nvidia Optimus хватило.</p>
-<h1 id="МФУ">МФУ</h1>
+<h4 id="МФУ">МФУ</h4>
 <p>Напоследок ещё одно решение, хотя это уже оффтоп: драйвер для МФУ. Удивительно, но на него драйверы лежат в свободном доступе здесь:<br><a href="http://www.canon.ru/Support/Consumer_Products/products/Fax__Multifunctionals/Laser/LaserBase_MF_series/i-SENSYS_MF4010.aspx?type=download&amp;softwaredetailid=tcm:203-1135803&amp;os=&amp;language=" target="_blank" rel="external">http://www.canon.ru/Support/Consumer_Products/products/Fax__Multifunctionals/Laser/LaserBase_MF_series/i-SENSYS_MF4010.aspx?type=download&amp;softwaredetailid=tcm:203-1135803&amp;os=&amp;language=</a></p>
 
         
